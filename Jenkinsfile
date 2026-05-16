@@ -1,10 +1,5 @@
 pipeline{
     agent any
-    
-    environment {
-        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
-    }
-
     stages{
         stage("checkout"){
             steps{
@@ -16,7 +11,7 @@ pipeline{
             steps{
                 script{
                   echo "========executing settingup environment========"
-                  bat 'docker build -t flask-jenkins-image:latest .'
+                  bat 'docker build -t flask-jenkins-sqlite-image:latest .'
                 }
             }
         }
@@ -24,13 +19,11 @@ pipeline{
         stage("Deploy Docker Container"){
             steps{
                 script{
-                    bat 'docker stop flask-container || exit 0'
-                    bat 'docker rm flask-container || exit 0'
-                    bat 'docker run -d -p 5000:5000 --name flask-container flask-jenkins-image:latest'
+                  bat 'docker run -d -p 9091:5000 --name flask-sqlite-container flask-jenkins-sqlite-image:latest'
                 }
             }
         }
     }
 }    
-    
-        
+     
+ 
